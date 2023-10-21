@@ -15,7 +15,7 @@
       <div>
         <input id="student" type="text" placeholder="Type your name" />
         <span id="instructions"></span>
-        <button id="advanceBtn" onclick="start()">START</button>
+        <button id="advanceBtn">START</button>
       </div>
       <br />
       <div id="sketchPadContainer" style="visibility: hidden"></div>
@@ -25,77 +25,20 @@
     <script src="js/draw.js"></script>
 
     <script>
-      // const sketchPad = new SketchPad(sketchPadContainer);
-      // let index = 0;
-      // const labels = [
-      //   "car",
-      //   "fish",
-      //   "house",
-      //   "tree",
-      //   "bicyle",
-      //   "guitar",
-      //   "pencil",
-      //   "clock",
-      // ];
+      const sketchPad = new SketchPad(sketchPadContainer);
 
-      // const data = {
-      //   student: null,
-      //   session: new Date().getTime(),
-      //   drawings: {},
-      // };
+      // const sketchPadContainer = document.querySelector("#sketchPadContainer");
 
-      // let instructions = document.querySelector("#instructions");
+      const start_btn = document.querySelector("#advanceBtn");
 
-      // function start() {
-      //   const student = document.querySelector("#student");
-      //   const sketchPadContainer = document.querySelector(
-      //     "#sketchPadContainer"
-      //   );
-
-      //   if (student.value === "") {
-      //     alert("Please provide your name first !.");
-      //     return;
-      //   }
-
-      //   // const data = {
-      //   //   student: null,
-      //   //   session: new Date().getTime(),
-      //   //   drawings: {},
-      //   // };
-
-      //   // data.student = student.value;
-      //   student.style.display = "none";
-      //   sketchPadContainer.style.visibility = "visible";
-
-      //   const label = labels[index];
-      //   instructions.innerHTML = `Please draw a ${label}`;
-      //   document.querySelector("#advanceBtn").textContent = "NEXT";
-      //   document.querySelector("#advanceBtn").onclick = next;
-      // }
-
-      // function next() {
-      //   if (sketchPad.paths.length == 0) {
-      //     alert("Draw something first!");
-      //     return;
-      //   }
-
-      //   const label = labels[index];
-      //   data.drawings[label] = sketchPad.paths;
-      //   sketchPad.reset();
-      //   index++;
-      //   const nextLabel = lables[index];
-      //   instructions.innerHTML = `Please draw a ${nextLabel}`;
-      // }
-
-      // // const data = {
-      // //   student: null,
-      // //   session: new Date().getTime(),
-      // //   drawings: {},
-      // // };
-
-      // // const sketchPad = new SketchPad(sketchPadContainer);
+      const data = {
+        student: null,
+        session: new Date().getTime(),
+        drawings: {},
+      };
 
       let index = 0;
+
       const labels = [
         "car",
         "fish",
@@ -107,13 +50,215 @@
         "clock",
       ];
 
+      const instructions = document.querySelector("#instructions");
+
+      start_btn.addEventListener("click", () => {
+        if (student.value == "") {
+          alert("Please provide your name in the first place !");
+          return;
+        }
+
+        data.student = student.value;
+        // student.style.display = "none";
+        document.querySelector("#student").style.display = "none";
+        // sketchPadContainer.style.visibility = "visible";
+        document.querySelector("#sketchPadContainer").style.visibility =
+          "visible";
+
+        const label = labels[index];
+        instructions.innerHTML = `Please draw a ${label}`;
+        start_btn.innerHTML = "NEXT";
+        start_btn.onclick = next;
+      });
+
+      let next = () => {
+        if (sketchPad.paths.length == 0 && index < labels.length) {
+          alert("Please draw something at first!");
+          return;
+        }
+
+        const label = labels[index];
+        data.drawings[label] = sketchPad.paths;
+        sketchPad.reset();
+        index++;
+
+        if (index < labels.length) {
+          const nextLabel = labels[index];
+          instructions.innerHTML = `Please draw a ${nextLabel}`;
+        } else {
+          sketchPadContainer.style.visibility = "hidden";
+          instructions.innerHTML = "Thank you !";
+          start_btn.innerHTML = "SAVE";
+          // start_btn.onclick = save;
+          // start_btn.onclick = () => {
+          //   console.log("saved!");
+          // };
+          // start_btn.addEventListener("click", () => {
+          //   console.log("Clicked on save button");
+          //   start_btn.style.display = "none";
+          //   instructions.innerHTML =
+          //     "Take your dowload file and place it alongside the others in the dataset.";
+
+          //   const element = document.createElement("a");
+          //   element.setAttribute(
+          //     "href",
+          //     `data:text/plain;charset=utf-8,${encodeURIComponent(
+          //       JSON.stringify(data)
+          //     )}`
+          //   );
+
+          //   const fileName = `${data.session}.json`;
+          //   element.setAttribute("download", fileName);
+
+          //   element.style.display = "none";
+          //   document.body.appendChild(element);
+          //   element.click();
+          //   document.body.removeChild(element);
+          // });
+          start_btn.addEventListener("click", save);
+        }
+      };
+
+      let save = () => {
+        console.log("Clicked on save button");
+        start_btn.style.display = "none";
+        instructions.innerHTML =
+          "Take your dowload file and place it alongside the others in the dataset.";
+
+        const element = document.createElement("a");
+        element.setAttribute(
+          "href",
+          `data:text/plain;charset=utf-8,${encodeURIComponent(
+            JSON.stringify(data)
+          )}`
+        );
+
+        const fileName = `${data.session}.json`;
+        element.setAttribute("download", fileName);
+
+        element.style.display = "none";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      };
+    </script>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=0.9, user-scalable=0"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="content">
+      <h1>Data Builder</h1>
+      <div>
+        <input id="student" type="text" placeholder="Type your name" />
+        <span id="instructions"></span>
+        <button id="advanceBtn">START</button>
+      </div>
+      <br />
+      <div id="sketchPadContainer" style="visibility: hidden"></div>
+    </div>
+
+    <script src="js/sketchPad.js"></script>
+    <script src="js/draw.js"></script>
+
+    <script>
+      const sketchPadContainer = document.querySelector("#sketchPadContainer");
+      const sketchPad = new SketchPad(sketchPadContainer);
+
+      const start_btn = document.querySelector("#advanceBtn");
+
       const data = {
         student: null,
         session: new Date().getTime(),
         drawings: {},
       };
 
-      const sketchPad = new SketchPad(sketchPadContainer);
+      let index = 0;
+
+      const labels = [
+        "car",
+        "fish",
+        "house",
+        "tree",
+        "bicycle",
+        "guitar",
+        "pencil",
+        "clock",
+      ];
+
+      const instructions = document.querySelector("#instructions");
+
+      start_btn.addEventListener("click", () => {
+        const student = document.querySelector("#student");
+
+        if (student.value == "") {
+          alert("Please provide your name in the first place !");
+          return;
+        }
+
+        data.student = student.value;
+        student.style.display = "none";
+        sketchPadContainer.style.visibility = "visible";
+
+        const label = labels[index];
+        instructions.innerHTML = `Please draw a ${label}`;
+        start_btn.innerHTML = "NEXT";
+        start_btn.onclick = next;
+      });
+
+      let next = () => {
+        if (sketchPad.paths.length == 0) {
+          alert("Please draw something at first!");
+          return;
+        }
+
+        const label = labels[index];
+        data.drawings[label] = sketchPad.paths;
+        sketchPad.reset();
+        index++;
+
+        if (index < labels.length) {
+          const nextLabel = labels[index];
+          instructions.innerHTML = `Please draw a ${nextLabel}`;
+        } else {
+          sketchPadContainer.style.visibility = "hidden";
+          instructions.innerHTML = "Thank you!";
+          start_btn.innerHTML = "SAVE";
+          start_btn.onclick = save;
+        }
+      };
+
+      let save = () => {
+        start_btn.style.display = "none";
+        instructions.innerHTML =
+          "Take your download file and place it alongside the others in the dataset.";
+
+        const element = document.createElement("a");
+        element.setAttribute(
+          "href",
+          `data:text/plain;charset=utf-8,${encodeURIComponent(
+            JSON.stringify(data)
+          )}`
+        );
+
+        const fileName = data.session + ".json";
+        element.setAttribute("download", fileName);
+
+        element.style.display = "none";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      };
     </script>
   </body>
-</html>
+</html> -->

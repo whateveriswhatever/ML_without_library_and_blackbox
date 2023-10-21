@@ -67,7 +67,7 @@ class SketchPad {
       }
     };
 
-    this.canvas.onmouseup = () => {
+    document.onmouseup = () => {
       this.isDrawing = false;
     };
 
@@ -81,8 +81,8 @@ class SketchPad {
       this.canvas.onmousemove(location);
     };
 
-    this.canvas.ontouchend = () => {
-      this.canvas.onmouseup();
+    document.ontouchend = () => {
+      document.onmouseup();
     };
 
     this.undoBtn.onclick = () => {
@@ -111,9 +111,9 @@ class SketchPad {
   };
 }
 
-const sketchPad = new SketchPad(sketchPadContainer);
+// const sketchPad = new SketchPad(sketchPadContainer);
 //const sketchPadContainer = document.querySelector("#sketchPadContainer");
 
-document.querySelector("#advanceBtn").onclick = () => {
-  console.log("Clicked!");
-};
+// document.querySelector("#advanceBtn").onclick = () => {
+//   console.log("Clicked!");
+// };

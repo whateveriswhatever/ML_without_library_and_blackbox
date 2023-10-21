@@ -22,7 +22,7 @@
     </div>
 
     <script src="js/sketchPad.js"></script>
-    <script src="common/draw.js"></script>
+    <script src="../common/draw.js"></script>
 
     <script>
       const sketchPad = new SketchPad(sketchPadContainer);
@@ -89,32 +89,6 @@
           sketchPadContainer.style.visibility = "hidden";
           instructions.innerHTML = "Thank you !";
           start_btn.innerHTML = "SAVE";
-          // start_btn.onclick = save;
-          // start_btn.onclick = () => {
-          //   console.log("saved!");
-          // };
-          // start_btn.addEventListener("click", () => {
-          //   console.log("Clicked on save button");
-          //   start_btn.style.display = "none";
-          //   instructions.innerHTML =
-          //     "Take your dowload file and place it alongside the others in the dataset.";
-
-          //   const element = document.createElement("a");
-          //   element.setAttribute(
-          //     "href",
-          //     `data:text/plain;charset=utf-8,${encodeURIComponent(
-          //       JSON.stringify(data)
-          //     )}`
-          //   );
-
-          //   const fileName = `${data.session}.json`;
-          //   element.setAttribute("download", fileName);
-
-          //   element.style.display = "none";
-          //   document.body.appendChild(element);
-          //   element.click();
-          //   document.body.removeChild(element);
-          // });
           start_btn.addEventListener("click", save);
         }
       };

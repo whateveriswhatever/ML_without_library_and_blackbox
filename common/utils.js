@@ -3,14 +3,14 @@ const utils = {};
 utils.flaggedUsers = [1663882102141, 1663900040545, 1664485938220];
 
 utils.styles = {
-  car: "gray",
-  fish: "red",
-  house: "yellow",
-  tree: "green",
-  bicycle: "cyan",
-  guitar: "blue",
-  pencil: "magenta",
-  clock: "lightgray",
+  car: { color: "gray", text: "🚗" },
+  fish: { color: "red", text: "🐟" },
+  house: { color: "yellow", text: "🏡" },
+  tree: { color: "green", text: "🌳" },
+  bicycle: { color: "cyan", text: "🚲" },
+  guitar: { color: "blue", text: "🎻" },
+  pencil: { color: "magenta", text: "📏" },
+  clock: { color: "lightgray", text: "⏲" },
 };
 
 utils.formatPercent = (n) => {
@@ -36,6 +36,26 @@ utils.groupBy = (objArray, key) => {
     groups[val].push(obj);
   }
   return groups;
+};
+
+utils.distance = (p1, p2) => {
+  return Math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2);
+};
+
+utils.getNearest = (loc, points) => {
+  let minDist = Number.MAX_SAFE_INTEGER;
+  let nearestIndex = 0;
+
+  for (let i = 0; i < points.length; i++) {
+    const point = points[i];
+    const d = utils.distance(loc, point);
+
+    if (d < minDist) {
+      minDist = d;
+      nearestIndex = i;
+    }
+  }
+  return nearestIndex;
 };
 
 if (typeof module !== "undefined") {
